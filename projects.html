@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Matrix - AI/ML Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-blue: #0B1426;
+            --cyber-violet: #6366F1;
+            --electric-turquoise: #14B8A6;
+            --neural-gray: #1F2937;
+            --data-silver: #9CA3AF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cosmic-blue) 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .glassmorphism {
+            background: rgba(31, 41, 55, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyber-violet), var(--electric-turquoise));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            border-color: var(--electric-turquoise);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(20, 184, 166, 0.3);
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .filter-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--data-silver);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--cyber-violet);
+            border-color: var(--cyber-violet);
+            color: white;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--electric-turquoise);
+            color: var(--electric-turquoise);
+        }
+        
+        .metric-badge {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            color: var(--electric-turquoise);
+        }
+        
+        .tech-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: #C7D2FE;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .project-image {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .project-image {
+            border-color: var(--electric-turquoise);
+            transform: scale(1.05);
+        }
+        
+        .search-input {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+        
+        .search-input:focus {
+            border-color: var(--electric-turquoise);
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+            outline: none;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--electric-turquoise);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .featured-project {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(99, 102, 241, 0.1));
+            border: 2px solid var(--electric-turquoise);
+            position: relative;
+        }
+        
+        .featured-project::after {
+            content: 'FEATURED';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--electric-turquoise);
+            color: var(--cosmic-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, var(--cyber-violet), var(--electric-turquoise));
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold gradient-text font-orbitron">Rony.Ai</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-teal-400">Command Center</a>
+                    <a href="projects.html" class="nav-link text-teal-400">Project Matrix</a>
+                    <a href="about.html" class="nav-link text-white hover:text-teal-400">Tech Profile</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Header Section -->
+    <section class="pt-32 pb-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 scroll-animate">
+                <h1 class="text-5xl md:text-7xl font-black mb-6 font-orbitron">
+                    <span class="gradient-text">PROJECT</span><br>
+                    <span class="text-white">MATRIX</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto">
+                    Advanced AI implementations, research breakthroughs, and production-ready machine learning systems
+                </p>
+            </div>
+            
+            <!-- Search and Filter Controls -->
+            <div class="flex flex-col lg:flex-row gap-6 items-center justify-between mb-12 scroll-animate">
+                <div class="flex-1 max-w-md">
+                    <input type="text" id="project-search" placeholder="Search projects..." 
+                           class="search-input w-full px-4 py-3 rounded-lg">
+                </div>
+                
+                <div class="flex flex-wrap gap-3">
+                    <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium" data-filter="all">
+                        All Projects
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="computer-vision">
+                        Computer Vision
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="nlp">
+                        NLP
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="mlops">
+                        MLOps
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium" data-filter="research">
+                        Research
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Project -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="featured-project rounded-2xl p-8 mb-16 scroll-animate">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold mb-4 gradient-text">Vision Mamba: State-Space Models for Computer Vision</h2>
+                        <p class="text-lg text-gray-300 mb-6">
+                            Revolutionary implementation of state-space models (SSMs) for computer vision tasks, achieving linear complexity 
+                            while maintaining competitive performance with transformer-based architectures. This breakthrough enables 
+                            real-time vision processing on edge devices with limited computational resources.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <span class="tech-tag px-3 py-1 rounded-full text-sm">PyTorch</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-sm">Computer Vision</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-sm">State-Space Models</span>
+                            <span class="tech-tag px-3 py-1 rounded-full text-sm">CUDA</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="metric-badge p-3 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-teal-400">94.2%</div>
+                                <div class="text-sm text-gray-300">Accuracy</div>
+                            </div>
+                            <div class="metric-badge p-3 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-teal-400">3.2x</div>
+                                <div class="text-sm text-gray-300">Speed Improvement</div>
+                            </div>
+                        </div>
+                        
+                        <button class="demo-btn px-6 py-3 rounded-lg font-semibold text-white">
+                            View Live Demo
+                        </button>
+                    </div>
+                    
+                    <div class="project-image rounded-xl h-80 flex items-center justify-center">
+                        <div class="text-8xl">🧠</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div id="projects-grid" class="project-grid">
+                <!-- Project 1: LLaMA Fine-tuning -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="nlp">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">📝</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">LLaMA 3.1 Domain Adaptation</h3>
+                    <p class="text-gray-300 mb-4">
+                        Fine-tuned the frontier-level LLaMA 3.1 405B model for enterprise applications, achieving superior performance 
+                        on domain-specific tasks while maintaining cost-effectiveness and accessibility.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">LLaMA</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Hugging Face</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PEFT</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">LoRA</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            96.8% F1 Score
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Implementation
+                    </button>
+                </div>
+                
+                <!-- Project 2: MLOps Pipeline -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="mlops">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">⚙️</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">End-to-End MLOps Architecture</h3>
+                    <p class="text-gray-300 mb-4">
+                        Comprehensive MLOps pipeline with automated CI/CD, model versioning, monitoring, and automated retraining 
+                        capabilities. Deployed on Kubernetes with AWS integration for enterprise-scale operations.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Kubernetes</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Docker</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">AWS</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">MLflow</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            99.7% Uptime
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Architecture
+                    </button>
+                </div>
+                
+                <!-- Project 3: Computer Vision -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="computer-vision">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">👁️</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Real-time Object Detection</h3>
+                    <p class="text-gray-300 mb-4">
+                        Advanced YOLOv8 implementation with custom optimizations for real-time object detection in 
+                        autonomous vehicle applications, achieving sub-100ms latency on edge devices.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">YOLOv8</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">OpenCV</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">TensorRT</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">CUDA</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            87ms Latency
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Demo
+                    </button>
+                </div>
+                
+                <!-- Project 4: Reinforcement Learning -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">🎯</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Multi-Agent Reinforcement Learning</h3>
+                    <p class="text-gray-300 mb-4">
+                        Novel approach to multi-agent coordination using decentralized actor-critic methods with 
+                        communication protocols for complex robotic swarm intelligence applications.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PyTorch</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Ray</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">RLlib</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Gym</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            93.4% Success
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Research
+                    </button>
+                </div>
+                
+                <!-- Project 5: NLP Sentiment Analysis -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="nlp">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">💭</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Multilingual Sentiment Analysis</h3>
+                    <p class="text-gray-300 mb-4">
+                        Cross-lingual sentiment analysis system supporting 15+ languages using transformer-based models 
+                        with domain adaptation for social media and customer feedback analysis.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">BERT</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Transformers</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">FastAPI</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Redis</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            91.7% Accuracy
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        Try Live API
+                    </button>
+                </div>
+                
+                <!-- Project 6: Time Series Forecasting -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">📈</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Financial Time Series Forecasting</h3>
+                    <p class="text-gray-300 mb-4">
+                        Advanced LSTM-based forecasting model with attention mechanisms for financial market prediction, 
+                        incorporating multiple data sources and real-time market sentiment analysis.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">LSTM</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Attention</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Keras</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PostgreSQL</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            89.3% Precision
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Models
+                    </button>
+                </div>
+                
+                <!-- Project 7: Generative AI -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">🎨</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">StyleGAN3 Image Generation</h3>
+                    <p class="text-gray-300 mb-4">
+                        Custom implementation of StyleGAN3 with architectural modifications for high-resolution artistic 
+                        image generation, trained on diverse artistic datasets for creative applications.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">StyleGAN3</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PyTorch</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">NVIDIA</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">CUDA</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            FID: 2.1
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        Generate Images
+                    </button>
+                </div>
+                
+                <!-- Project 8: Edge AI -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="computer-vision">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">📱</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Edge AI Medical Diagnosis</h3>
+                    <p class="text-gray-300 mb-4">
+                        Lightweight CNN architecture optimized for mobile devices, enabling real-time medical image 
+                        analysis and diagnosis assistance in resource-constrained environments.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">TensorFlow Lite</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">MobileNet</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Flutter</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Firebase</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            95.1% Accuracy
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        Download App
+                    </button>
+                </div>
+                
+                <!-- Project 9: Graph Neural Networks -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">🔗</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Graph Neural Network for Social Networks</h3>
+                    <p class="text-gray-300 mb-4">
+                        Advanced GNN architecture for social network analysis and recommendation systems, incorporating 
+                        temporal dynamics and graph attention mechanisms for improved prediction accuracy.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PyTorch Geometric</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">GNN</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Neo4j</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">DGL</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            92.6% AUC
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Graph
+                    </button>
+                </div>
+                
+                <!-- Project 10: AutoML Platform -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="mlops">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">🤖</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Enterprise AutoML Platform</h3>
+                    <p class="text-gray-300 mb-4">
+                        Automated machine learning platform for enterprise users with no-code interface, enabling 
+                        business analysts to build and deploy ML models without extensive technical expertise.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">React</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">FastAPI</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Optuna</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Dask</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            10x Faster
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        Try Platform
+                    </button>
+                </div>
+                
+                <!-- Project 11: Quantum ML -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">⚛️</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Quantum Machine Learning Algorithms</h3>
+                    <p class="text-gray-300 mb-4">
+                        Implementation of quantum machine learning algorithms using Qiskit and PennyLane, exploring 
+                        quantum advantage in optimization problems and feature mapping for classical datasets.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Qiskit</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">PennyLane</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Python</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">IBM Q</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            Quantum Speedup
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Research
+                    </button>
+                </div>
+                
+                <!-- Project 12: Federated Learning -->
+                <div class="project-card rounded-xl p-6 scroll-animate" data-category="research">
+                    <div class="project-image rounded-lg h-48 mb-6 flex items-center justify-center">
+                        <span class="text-6xl">🌐</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Privacy-Preserving Federated Learning</h3>
+                    <p class="text-gray-300 mb-4">
+                        Federated learning framework with differential privacy guarantees, enabling collaborative 
+                        model training across distributed datasets while preserving data privacy and security.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="tech-tag px-2 py-1 rounded text-xs">TensorFlow Federated</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Differential Privacy</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Cryptography</span>
+                        <span class="tech-tag px-2 py-1 rounded text-xs">Secure Aggregation</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="metric-badge px-3 py-1 rounded-full text-sm">
+                            ε = 1.0
+                        </div>
+                        <div class="text-sm text-gray-400">2024</div>
+                    </div>
+                    
+                    <button class="demo-btn w-full py-2 rounded-lg font-medium text-white">
+                        View Framework
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Load More Section -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="scroll-animate">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">More Projects Coming Soon</h2>
+                <p class="text-gray-300 mb-8">
+                    Currently working on cutting-edge research in multimodal AI, neuromorphic computing, and advanced robotics.
+                </p>
+                <button id="load-more" class="demo-btn px-8 py-4 rounded-lg font-semibold text-white">
+                    Load More Projects
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-2xl font-bold gradient-text font-orbitron mb-4">Rony.Ai</div>
+            <p class="text-gray-400 mb-4">Built By <a href="https://www.facebook.com/profile.php?id=100063808086007"><u>OcaByte.</u></a></p>
+            <p class="text-sm text-gray-500">© 2024 Neural Command Center. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+    <script>
+        // Project filtering functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            const searchInput = document.getElementById('project-search');
+            
+            // Filter functionality
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const filter = button.getAttribute('data-filter');
+                    
+                    projectCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                projectCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.tech-tag')).map(tag => tag.textContent.toLowerCase());
+                    
+                    const matches = title.includes(searchTerm) || 
+                                   description.includes(searchTerm) || 
+                                   tags.some(tag => tag.includes(searchTerm));
+                    
+                    if (matches || searchTerm === '') {
+                        card.style.display = 'block';
+                        card.style.opacity = '1';
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Load more functionality
+            document.getElementById('load-more').addEventListener('click', () => {
+                showNotification('More projects coming soon! Stay tuned for updates.', 'info');
+            });
+            
+            // Demo button functionality
+            document.querySelectorAll('.demo-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    showNotification('Demo feature coming soon! Check back for updates.', 'info');
+                });
+            });
+            
+            // Scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML Engineer - Neural Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-blue: #0B1426;
+            --cyber-violet: #6366F1;
+            --electric-turquoise: #14B8A6;
+            --neural-gray: #1F2937;
+            --data-silver: #9CA3AF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cosmic-blue) 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.8;
+        }
+        
+        .glassmorphism {
+            background: rgba(31, 41, 55, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyber-violet), var(--electric-turquoise));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--electric-turquoise);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--electric-turquoise); }
+        }
+        
+        .neural-node {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .neural-node:hover {
+            transform: scale(1.1);
+        }
+        
+        .neural-node::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--cyber-violet), transparent);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.2; }
+        }
+        
+        .skill-bar {
+            background: linear-gradient(90deg, var(--cyber-violet), var(--electric-turquoise));
+            height: 4px;
+            border-radius: 2px;
+            transition: width 1s ease-out;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            border-color: var(--electric-turquoise);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(20, 184, 166, 0.3);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--electric-turquoise);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .metric-card {
+            background: rgba(31, 41, 55, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            border-color: var(--electric-turquoise);
+            transform: translateY(-4px);
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyber-violet), transparent);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Network Background -->
+    <canvas id="neural-canvas" class="neural-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold gradient-text font-orbitron">Rony.AI</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-teal-400">Command Center</a>
+                    <a href="projects.html" class="nav-link text-white hover:text-teal-400">Project Matrix</a>
+                    <a href="about.html" class="nav-link text-white hover:text-teal-400">Tech Profile</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="hero-content max-w-7xl mx-auto px-6 text-center">
+            <div class="mb-8">
+                <h1 class="text-6xl md:text-8xl font-black mb-6 font-orbitron">
+                    <span class="gradient-text">NEURAL</span><br>
+                    <span class="text-white">COMMAND</span>
+                </h1>
+                <div class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    <span class="typewriter">Advanced AI/ML Engineer specializing in neural networks, MLOps, and intelligent systems</span>
+                </div>
+            </div>
+            
+            <!-- Neural Network Interactive Nodes -->
+            <div class="relative mb-12">
+                <div class="flex flex-wrap justify-center gap-8 mb-8">
+                    <div class="neural-node group" data-skill="Neural Networks">
+                        <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl">
+                            🧠
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Neural Networks
+                        </div>
+                    </div>
+                    <div class="neural-node group" data-skill="LLMs">
+                        <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center text-2xl">
+                            📝
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Large Language Models
+                        </div>
+                    </div>
+                    <div class="neural-node group" data-skill="MLOps">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-2xl">
+                            ⚙️
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            MLOps Pipeline
+                        </div>
+                    </div>
+                    <div class="neural-node group" data-skill="Computer Vision">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-2xl">
+                            👁️
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Computer Vision
+                        </div>
+                    </div>
+                    <div class="neural-node group" data-skill="Reinforcement Learning">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center text-2xl">
+                            🎯
+                        </div>
+                        <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Reinforcement Learning
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="projects.html" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-8 py-4 rounded-lg font-semibold transition-all duration-300 neon-glow hover-lift">
+                    Explore Project Matrix
+                </a>
+                <a href="about.html" class="border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-gray-900 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover-lift">
+                    View Tech Profile
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Performance Dashboard -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">AI Performance Metrics</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">Real-time performance indicators showcasing model accuracy, processing speed, and system efficiency across multiple AI domains.</p>
+            </div>
+            
+            <div id="performance-dashboard" class="scroll-animate"></div>
+        </div>
+    </section>
+    
+    <!-- Expertise Matrix -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">AI Expertise Matrix</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">Comprehensive skill set across the machine learning lifecycle, from research to production deployment.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 scroll-animate">
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Neural Architecture Design</h3>
+                    <p class="text-gray-300 mb-4">Advanced neural network architectures including CNNs, RNNs, Transformers, and custom models for specialized applications.</p>
+                    <div class="skill-bar mb-2" style="width: 95%"></div>
+                    <span class="text-sm text-gray-400">Expert Level</span>
+                </div>
+                
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Large Language Models</h3>
+                    <p class="text-gray-300 mb-4">GPT-4, LLaMA, and custom transformer implementations for natural language processing and generation tasks.</p>
+                    <div class="skill-bar mb-2" style="width: 92%"></div>
+                    <span class="text-sm text-gray-400">Advanced Level</span>
+                </div>
+                
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">MLOps Pipeline</h3>
+                    <p class="text-gray-300 mb-4">End-to-end machine learning operations including CI/CD, model versioning, monitoring, and automated retraining.</p>
+                    <div class="skill-bar mb-2" style="width: 89%"></div>
+                    <span class="text-sm text-gray-400">Advanced Level</span>
+                </div>
+                
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">👁️</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Computer Vision</h3>
+                    <p class="text-gray-300 mb-4">Image classification, object detection, semantic segmentation, and generative models for visual data processing.</p>
+                    <div class="skill-bar mb-2" style="width: 91%"></div>
+                    <span class="text-sm text-gray-400">Expert Level</span>
+                </div>
+                
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Reinforcement Learning</h3>
+                    <p class="text-gray-300 mb-4">Q-learning, policy gradients, and actor-critic methods for autonomous systems and decision-making agents.</p>
+                    <div class="skill-bar mb-2" style="width: 85%"></div>
+                    <span class="text-sm text-gray-400">Advanced Level</span>
+                </div>
+                
+                <div class="project-card p-8 rounded-xl hover-lift">
+                    <div class="text-4xl mb-4">☁️</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Cloud AI Platforms</h3>
+                    <p class="text-gray-300 mb-4">AWS SageMaker, Google AI Platform, Azure ML for scalable model training and deployment in production environments.</p>
+                    <div class="skill-bar mb-2" style="width: 88%"></div>
+                    <span class="text-sm text-gray-400">Advanced Level</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tech Stack Preview -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Technology Stack</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">Cutting-edge tools and frameworks powering advanced AI solutions.</p>
+            </div>
+            
+            <div id="tech-stack" class="scroll-animate"></div>
+        </div>
+    </section>
+    
+    <!-- Featured Projects Preview -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Featured Projects</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">Breakthrough AI implementations and research contributions.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 scroll-animate">
+                <div class="project-card p-6 rounded-xl hover-lift">
+                    <div class="h-48 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-lg mb-4 flex items-center justify-center">
+                        <span class="text-6xl">🧠</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Vision Mamba Implementation</h3>
+                    <p class="text-gray-300 text-sm mb-4">State-space models for computer vision achieving linear complexity with competitive performance.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded text-xs">PyTorch</span>
+                        <span class="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs">Computer Vision</span>
+                        <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">SSMs</span>
+                    </div>
+                    <div class="text-teal-400 text-sm">Performance: 94.2% accuracy</div>
+                </div>
+                
+                <div class="project-card p-6 rounded-xl hover-lift">
+                    <div class="h-48 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 rounded-lg mb-4 flex items-center justify-center">
+                        <span class="text-6xl">📝</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">LLaMA 3.1 Fine-tuning</h3>
+                    <p class="text-gray-300 text-sm mb-4">Domain-specific optimization of frontier-level open-source language model for enterprise applications.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs">LLaMA</span>
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded text-xs">NLP</span>
+                        <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">Fine-tuning</span>
+                    </div>
+                    <div class="text-teal-400 text-sm">Performance: 96.8% F1 score</div>
+                </div>
+                
+                <div class="project-card p-6 rounded-xl hover-lift">
+                    <div class="h-48 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-lg mb-4 flex items-center justify-center">
+                        <span class="text-6xl">⚙️</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">MLOps Pipeline Architecture</h3>
+                    <p class="text-gray-300 text-sm mb-4">End-to-end automated ML workflow with CI/CD, monitoring, and automated retraining capabilities.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">Kubernetes</span>
+                        <span class="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs">Docker</span>
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded text-xs">AWS</span>
+                    </div>
+                    <div class="text-teal-400 text-sm">Efficiency: 99.7% uptime</div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="projects.html" class="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 px-8 py-4 rounded-lg font-semibold transition-all duration-300 neon-glow hover-lift">
+                    View All Projects
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="py-20 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="glassmorphism rounded-2xl p-12 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Ready to Build the Future?</h2>
+                <p class="text-xl text-gray-300 mb-8">Let's collaborate on cutting-edge AI projects that push the boundaries of what's possible.</p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="about.html" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-8 py-4 rounded-lg font-semibold transition-all duration-300 neon-glow hover-lift">
+                        Get In Touch
+                    </a>
+                    <a href="projects.html" class="border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-gray-900 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover-lift">
+                        Explore Portfolio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-2xl font-bold gradient-text font-orbitron mb-4">Rony.AI</div>
+            <p class="text-gray-400 mb-4">Built By <a href="https://www.facebook.com/profile.php?id=100063808086007"><u>OcaByte.</u></a></p>
+            <p class="text-sm text-gray-500">© 2024 Neural Command Center. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+    <script>
+        // Initialize typewriter effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const typewriter = document.querySelector('.typewriter');
+            if (typewriter) {
+                typewriter.style.animation = 'typing 3s steps(40, end), blink-caret 0.75s step-end infinite';
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Neural node interactions
+        document.querySelectorAll('.neural-node').forEach(node => {
+            node.addEventListener('click', () => {
+                const skill = node.getAttribute('data-skill');
+                showNotification(`Exploring ${skill} capabilities...`, 'info');
+            });
+        });
+    </script>
+</body>
+</html>

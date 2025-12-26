@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Profile - AI/ML Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-blue: #0B1426;
+            --cyber-violet: #6366F1;
+            --electric-turquoise: #14B8A6;
+            --neural-gray: #1F2937;
+            --data-silver: #9CA3AF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cosmic-blue) 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .glassmorphism {
+            background: rgba(31, 41, 55, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyber-violet), var(--electric-turquoise));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .profile-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .profile-card:hover::before {
+            left: 100%;
+        }
+        
+        .profile-card:hover {
+            border-color: var(--electric-turquoise);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
+        }
+        
+        .tech-constellation {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1), transparent);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        
+        .skill-node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(20, 184, 166, 0.8));
+            border: 2px solid var(--electric-turquoise);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .skill-node:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(20, 184, 166, 0.6);
+        }
+        
+        .skill-node::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--data-silver);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .skill-node:hover::after {
+            opacity: 1;
+        }
+        
+        .connection-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, var(--cyber-violet), var(--electric-turquoise));
+            opacity: 0.3;
+            animation: pulseLine 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulseLine {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--electric-turquoise);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(20, 184, 166, 0.5);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: linear-gradient(180deg, var(--electric-turquoise), transparent);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .certification-badge {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .certification-badge:hover {
+            border-color: var(--electric-turquoise);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.3);
+        }
+        
+        .contact-form {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(15px);
+        }
+        
+        .form-input {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--electric-turquoise);
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+            outline: none;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--electric-turquoise);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .profile-image {
+            position: relative;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(20, 184, 166, 0.2));
+            border: 2px solid var(--cyber-violet);
+        }
+        
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(135deg, var(--cyber-violet), var(--electric-turquoise));
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .social-link {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--cyber-violet);
+            border-color: var(--electric-turquoise);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        }
+        
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-card:hover {
+            border-color: var(--electric-turquoise);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold gradient-text font-orbitron">Rony.Ai</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-teal-400">Command Center</a>
+                    <a href="projects.html" class="nav-link text-white hover:text-teal-400">Project Matrix</a>
+                    <a href="about.html" class="nav-link text-teal-400">Tech Profile</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h1 class="text-5xl md:text-7xl font-black mb-6 font-orbitron">
+                    <span class="gradient-text">TECH</span><br>
+                    <span class="text-white">PROFILE</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto">
+                    Neural command interface of an advanced AI/ML engineer shaping the future of intelligent systems
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Profile Overview -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Profile Image -->
+                <div class="scroll-animate">
+                    <div class="profile-card rounded-2xl p-8 text-center">
+                        <div class="profile-image w-48 h-48 mx-auto mb-6 rounded-full flex items-center justify-center">
+                            <div class="text-8xl">🤖</div>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-2 gradient-text">Alex Chen</h2>
+                        <p class="text-lg text-gray-300 mb-4">Senior AI/ML Engineer</p>
+                        <div class="flex justify-center space-x-4 mb-6">
+                            <a href="#" class="social-link w-12 h-12 rounded-full flex items-center justify-center">
+                                <span class="text-xl">💼</span>
+                            </a>
+                            <a href="#" class="social-link w-12 h-12 rounded-full flex items-center justify-center">
+                                <span class="text-xl">🐙</span>
+                            </a>
+                            <a href="#" class="social-link w-12 h-12 rounded-full flex items-center justify-center">
+                                <span class="text-xl">🐦</span>
+                            </a>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            "Building the neural interfaces that connect human intelligence with artificial cognition"
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="scroll-animate">
+                    <div class="profile-card rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-white">Mission Metrics</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Years Experience</span>
+                                <span class="text-2xl font-bold gradient-text">8+</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Projects Completed</span>
+                                <span class="text-2xl font-bold gradient-text">50+</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Research Papers</span>
+                                <span class="text-2xl font-bold gradient-text">12</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Patents Filed</span>
+                                <span class="text-2xl font-bold gradient-text">3</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Team Size Led</span>
+                                <span class="text-2xl font-bold gradient-text">15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Core Expertise -->
+                <div class="scroll-animate">
+                    <div class="profile-card rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-white">Core Expertise</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-teal-400 rounded-full"></div>
+                                <span class="text-gray-300">Neural Architecture Design</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-indigo-400 rounded-full"></div>
+                                <span class="text-gray-300">Large Language Models</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-purple-400 rounded-full"></div>
+                                <span class="text-gray-300">MLOps & Production ML</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-cyan-400 rounded-full"></div>
+                                <span class="text-gray-300">Computer Vision Systems</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-pink-400 rounded-full"></div>
+                                <span class="text-gray-300">Reinforcement Learning</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                <span class="text-gray-300">Edge AI & Mobile ML</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tech Constellation -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Technology Constellation</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Interactive 3D visualization of technical skills and their interconnected relationships
+                </p>
+            </div>
+            
+            <div class="tech-constellation scroll-animate" id="tech-constellation">
+                <!-- Skill nodes will be positioned by JavaScript -->
+                <div class="skill-node" style="top: 20%; left: 20%;" data-name="Python" data-level="95">
+                    <span class="text-2xl">🐍</span>
+                </div>
+                <div class="skill-node" style="top: 30%; left: 70%;" data-name="TensorFlow" data-level="92">
+                    <span class="text-2xl">🧠</span>
+                </div>
+                <div class="skill-node" style="top: 60%; left: 15%;" data-name="PyTorch" data-level="89">
+                    <span class="text-2xl">🔥</span>
+                </div>
+                <div class="skill-node" style="top: 70%; left: 65%;" data-name="Docker" data-level="87">
+                    <span class="text-2xl">🐳</span>
+                </div>
+                <div class="skill-node" style="top: 40%; left: 45%;" data-name="Kubernetes" data-level="84">
+                    <span class="text-2xl">☸️</span>
+                </div>
+                <div class="skill-node" style="top: 15%; left: 50%;" data-name="AWS" data-level="91">
+                    <span class="text-2xl">☁️</span>
+                </div>
+                <div class="skill-node" style="top: 80%; left: 40%;" data-name="GCP" data-level="86">
+                    <span class="text-2xl">🔧</span>
+                </div>
+                <div class="skill-node" style="top: 50%; left: 80%;" data-name="MLflow" data-level="88">
+                    <span class="text-2xl">📊</span>
+                </div>
+                
+                <!-- Connection lines -->
+                <div class="connection-line" style="top: 25%; left: 25%; width: 45%; transform: rotate(15deg);"></div>
+                <div class="connection-line" style="top: 45%; left: 30%; width: 35%; transform: rotate(-20deg);"></div>
+                <div class="connection-line" style="top: 55%; left: 45%; width: 30%; transform: rotate(25deg);"></div>
+                <div class="connection-line" style="top: 35%; left: 55%; width: 25%; transform: rotate(-30deg);"></div>
+            </div>
+            
+            <div class="text-center mt-8 scroll-animate">
+                <p class="text-gray-400">Hover over nodes to explore skill connections</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Experience Timeline -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Mission Timeline</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Key milestones in the journey of advancing artificial intelligence
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto scroll-animate">
+                <div class="timeline-item">
+                    <div class="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-white">Senior AI/ML Engineer</h3>
+                            <span class="text-teal-400 font-medium">2022 - Present</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            Leading AI initiatives at Neural Dynamics Corp, developing state-of-the-art computer vision systems 
+                            and natural language processing pipelines. Architected MLOps infrastructure serving 10M+ daily predictions.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">Team Leadership</span>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm">MLOps</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Research</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-white">Machine Learning Engineer</h3>
+                            <span class="text-teal-400 font-medium">2020 - 2022</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            Developed reinforcement learning algorithms for autonomous systems at Quantum Innovations. 
+                            Published 6 research papers on multi-agent coordination and edge AI deployment strategies.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">Reinforcement Learning</span>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm">Edge AI</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Publications</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-white">Data Scientist</h3>
+                            <span class="text-teal-400 font-medium">2018 - 2020</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            Built predictive models for financial markets at DataDriven Solutions. Developed time series 
+                            forecasting systems with 89% accuracy, managing $50M+ portfolio risk analysis.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">Time Series</span>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm">Finance</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">Risk Analysis</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-white">Research Assistant</h3>
+                            <span class="text-teal-400 font-medium">2016 - 2018</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            PhD research in Computer Vision at MIT AI Lab. Focused on neural architecture search and 
+                            efficient model compression techniques for mobile deployment.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">Computer Vision</span>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm">Research</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">MIT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Certifications & Achievements -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Certifications & Achievements</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Professional certifications and recognition from leading technology organizations
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 scroll-animate">
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">☁️</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">AWS Certified ML Engineer</h3>
+                    <p class="text-gray-300 text-sm mb-4">Professional certification in AWS machine learning services and MLOps</p>
+                    <span class="text-teal-400 font-medium">2024</span>
+                </div>
+                
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🔧</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Google Cloud ML Engineer</h3>
+                    <p class="text-gray-300 text-sm mb-4">Professional certification in Google Cloud AI Platform and TensorFlow</p>
+                    <span class="text-teal-400 font-medium">2023</span>
+                </div>
+                
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">TensorFlow Developer</h3>
+                    <p class="text-gray-300 text-sm mb-4">Google certification in TensorFlow model development and deployment</p>
+                    <span class="text-teal-400 font-medium">2023</span>
+                </div>
+                
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">MLflow Certified Practitioner</h3>
+                    <p class="text-gray-300 text-sm mb-4">Advanced certification in MLflow for MLOps and experiment tracking</p>
+                    <span class="text-teal-400 font-medium">2024</span>
+                </div>
+                
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🏆</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">AI Research Excellence Award</h3>
+                    <p class="text-gray-300 text-sm mb-4">Outstanding contribution to computer vision research at NeurIPS 2023</p>
+                    <span class="text-teal-400 font-medium">2023</span>
+                </div>
+                
+                <div class="certification-badge rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🌟</div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Innovation Leadership Recognition</h3>
+                    <p class="text-gray-300 text-sm mb-4">Leadership in AI innovation and team development at Neural Dynamics</p>
+                    <span class="text-teal-400 font-medium">2024</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Initiate Contact</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Ready to collaborate on cutting-edge AI projects and push the boundaries of what's possible
+                </p>
+            </div>
+            
+            <div class="contact-form rounded-2xl p-8 scroll-animate">
+                <form id="contact-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                            <input type="text" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                            <input type="email" class="form-input w-full px-4 py-3 rounded-lg" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Project Type</label>
+                        <select class="form-input w-full px-4 py-3 rounded-lg" required>
+                            <option value="">Select project type</option>
+                            <option value="research">AI Research Collaboration</option>
+                            <option value="consulting">Technical Consulting</option>
+                            <option value="development">Custom AI Development</option>
+                            <option value="speaking">Speaking Engagement</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                        <textarea class="form-input w-full px-4 py-3 rounded-lg h-32" placeholder="Describe your AI project or collaboration idea..." required></textarea>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="bg-gradient-to-r from-indigo-600 to-teal-600 hover:from-indigo-500 hover:to-teal-500 px-8 py-4 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105">
+                            Send Neural Signal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-2xl font-bold gradient-text font-orbitron mb-4">Rony.Ai</div>
+            <p class="text-gray-400 mb-4">Built By <a href="https://www.facebook.com/profile.php?id=100063808086007"><u>OcaByte.</u></a></p>
+            <p class="text-sm text-gray-500">© 2024 Neural Command Center. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Skill node interactions
+            document.querySelectorAll('.skill-node').forEach(node => {
+                node.addEventListener('click', () => {
+                    const name = node.getAttribute('data-name');
+                    const level = node.getAttribute('data-level');
+                    showNotification(`${name}: ${level}% proficiency`, 'info');
+                });
+            });
+            
+            // Contact form submission
+            document.getElementById('contact-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                showNotification('Neural signal transmitted successfully! Response incoming...', 'success');
+                e.target.reset();
+            });
+            
+            // Social link interactions
+            document.querySelectorAll('.social-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showNotification('Social profile access initiated...', 'info');
+                });
+            });
+            
+            // Scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Animate skill nodes on load
+            anime({
+                targets: '.skill-node',
+                scale: [0, 1],
+                opacity: [0, 1],
+                duration: 1000,
+                delay: anime.stagger(200),
+                easing: 'easeOutElastic(1, .8)'
+            });
+        });
+    </script>
+</body>
+</html>
